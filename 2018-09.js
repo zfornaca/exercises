@@ -24,3 +24,27 @@ var romanToInt = function(s) {
   }
   return sum;
 };
+
+// Tracking tardies and absences
+// https://leetcode.com/problems/student-attendance-record-i/description/
+var checkRecord = function(s) {
+  let absences = 0;
+  let tardies = 0;
+  for (let ltr of s) {
+    if (ltr === 'L') {
+      tardies++;
+      if (tardies > 2) {
+        return false;
+      }
+    } else {
+      tardies = 0;
+    }
+    if (ltr === 'A') {
+      absences++;
+      if (absences > 1) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
