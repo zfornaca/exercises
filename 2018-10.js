@@ -23,3 +23,17 @@ var maximumProduct = function(nums) {
   let noNegProd = nums[len - 1] * nums[len - 2] * nums[len - 3];
   return Math.max(doubleNegProd, noNegProd);
 };
+
+// Oct 3: Linked List Cycle
+// https://leetcode.com/problems/linked-list-cycle/description/
+
+var hasCycle = function(head) {
+  let move1 = head;
+  let move2 = head;
+  while (move2 && move2.next) {
+    move1 = move1.next;
+    move2 = move2.next.next;
+    if (move1 === move2) return true;
+  }
+  return false;
+};
