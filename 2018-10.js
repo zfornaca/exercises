@@ -37,3 +37,23 @@ var hasCycle = function(head) {
   }
   return false;
 };
+
+// Oct 15: Remove duplicates from sorted array
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/
+
+var removeDuplicates = function(nums) {
+  if (nums.length <= 1) return nums.length;
+
+  let i = 0;
+  let j = 1;
+
+  while (j < nums.length) {
+    if (nums[j] === nums[i]) j++;
+    else {
+      i++;
+      nums[i] = nums[j];
+      j++;
+    }
+  }
+  return i + 1;
+};
