@@ -70,3 +70,30 @@ var middleNode = function(head) {
   }
   return slow;
 };
+
+// Oct 28: Duplicate Emails
+// https://leetcode.com/problems/duplicate-emails/description/
+
+/*
+SELECT Email FROM Person GROUP BY Email HAVING COUNT(Email)>1;
+*/
+
+// Oct 28: First Unique Character in a String
+// https://leetcode.com/submissions/detail/186176517/
+
+var firstUniqChar = function(s) {
+  let map = {};
+
+  for (let i = 0; i < s.length; i++) {
+    if (map.hasOwnProperty(s[i])) {
+      map[s[i]] += 1;
+    } else {
+      map[s[i]] = 1;
+    }
+  }
+  for (let i = 0; i < s.length; i++) {
+    if (map[s[i]] === 1) return i;
+  }
+
+  return -1;
+};
