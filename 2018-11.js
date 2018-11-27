@@ -39,3 +39,25 @@ var judgeCircle = function(moves) {
 
 // Come back to
 // https://leetcode.com/problems/counting-bits/
+
+// November 27
+// Delete duplicate emails
+// https://leetcode.com/problems/delete-duplicate-emails/
+
+DELETE FROM Person WHERE Id NOT IN
+(SELECT * FROM (SELECT MIN(Id) FROM Person GROUP BY Email) AS Uniques);
+
+// November 27
+// Smallest range 1
+// https://leetcode.com/problems/smallest-range-i/submissions/
+
+var smallestRangeI = function(A, K) {
+  let minA = Infinity;
+  let maxA = -Infinity;
+  for (let n of A) {
+      minA = Math.min(minA, n);
+      maxA = Math.max(maxA, n);
+  }
+  let diff = maxA - minA - (2 * K);
+  return Math.max(diff, 0);
+};
