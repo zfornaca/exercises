@@ -61,3 +61,20 @@ var smallestRangeI = function(A, K) {
   let diff = maxA - minA - (2 * K);
   return Math.max(diff, 0);
 };
+
+// November 27
+// Maximum subarray
+// https://leetcode.com/problems/maximum-subarray/
+
+var maxSubArray = function(nums) {
+  let largestSum = nums[0];
+  let currentSum = nums[0];
+  
+  for (let i = 1; i < nums.length; i++) {
+      currentSum = Math.max(nums[i], nums[i] + currentSum);
+      
+      largestSum = Math.max(currentSum, largestSum);
+  }
+  
+  return largestSum;
+};
