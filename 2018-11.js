@@ -78,3 +78,43 @@ var maxSubArray = function(nums) {
   
   return largestSum;
 };
+
+// November 28
+// Minimum path sum (DP)
+// https://leetcode.com/problems/minimum-path-sum/
+
+var minPathSum = function(grid) {
+  let h = grid.length;
+  let w = grid[0].length;
+  
+  for (let i = 0; i < h-1; i++) grid[i+1][0] += grid[i][0];
+  for (let j = 0; j < w-1; j++) grid[0][j+1] += grid[0][j];
+  
+  for (let i = 1; i < h; i++) {
+      for (let j = 1; j < w; j++) {
+          grid[i][j] += Math.min(grid[i][j-1], grid[i-1][j])
+      }
+  }
+  
+  return grid[h-1][w-1]
+  
+}
+
+// November 28
+// Longest harmonious subsequence
+// https://leetcode.com/problems/longest-harmonious-subsequence/
+
+var findLHS = function(nums) {
+  let hash = {};
+  let best = 0;
+
+  nums.forEach(num => num in hash ? hash[num]++ : hash[num] = 1)
+  
+  Object.keys(hash).forEach(el => {
+      if (hash.hasOwnProperty(~~el+1)) {
+          best = Math.max(best, hash[el]+hash[~~el+1])
+      }
+  })
+      
+  return best
+};
