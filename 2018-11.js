@@ -118,3 +118,60 @@ var findLHS = function(nums) {
       
   return best
 };
+
+// November 29
+// Linked list components
+// https://leetcode.com/problems/linked-list-components/
+
+var numComponents = function(head, G) {
+  let setG = new Set(G);
+  let isMatch = false;
+  let compCt = 0;
+  
+  while(head !== null) {
+      v = head.val;
+      if (setG.has(v)) {
+          isMatch = true;
+      } else if (isMatch === true) {
+          isMatch = false;
+          compCt += 1;
+      }
+      head = head.next;
+  }
+  
+  if (isMatch) compCt += 1;
+  return compCt;
+};
+
+// November 29
+// Valid square
+// https://leetcode.com/problems/valid-square/
+
+function validSquare(...coords) {
+  let distances = [];
+  for (let i = 0; i < coords.length-1; i++) {
+      for (let j = i+1; j < coords.length; j++) {
+          distances.push(pythagSq(coords[i], coords[j]));
+      }
+  }
+
+  let sideSz = Math.min(...distances);
+  let crossSz = Math.max(...distances);
+  let sideCt = 0;
+  let crossCt = 0;
+
+  for (let dist of distances) {
+      if (dist === sideSz) sideCt++;
+      else if (dist === crossSz) crossCt++;
+      else return false;
+  }
+  
+  return sideCt === 4 && crossCt === 2;
+  
+}
+
+function pythagSq(m, n) {
+  let sideA = (m[0]-n[0])**2
+  let sideB = (m[1]-n[1])**2
+  return sideA+sideB
+}
