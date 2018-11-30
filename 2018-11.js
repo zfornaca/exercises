@@ -199,3 +199,72 @@ function confRoomTest(events) {
   }
   return true;
 }
+
+// November 30
+// Partition labels
+// https://leetcode.com/problems/partition-labels/
+
+var partitionLabels = function(S) {
+  const lastIndex = {};
+  
+  for (let i = 0; i < S.length; i++) {
+      lastIndex[S[i]] = i;
+  }
+  
+  const partitionLengths = [];
+  let partitionStart = 0;
+  let partitionEnd = lastIndex[S[0]] // 8
+  
+  if (partitionEnd === partitionStart) {
+      // necessary if first char is complete partition
+      partitionLengths.push(1);
+      partitionStart += 1;
+  }
+  
+  for (let j = 1; j < S.length; j++) {
+      partitionEnd = Math.max(partitionEnd, lastIndex[S[j]]); // 8
+      if (partitionEnd <= j) {
+          // this is a complete eligible partition
+          partitionLengths.push(partitionEnd - partitionStart + 1);
+          partitionStart = partitionEnd + 1;
+      
+      }
+  }
+  
+  return partitionLengths;
+  
+};
+
+// November 30
+// Masking personal information
+// https://leetcode.com/problems/masking-personal-information/
+
+var maskPII = function(S) {
+    
+  if (/[a-zA-Z]/.test(S[0])) {
+      // treat as email
+      const [name, domain] = S.split('@')
+      let masked = `${name[0]}*****${name[name.length-1]}@${domain}`;
+      return masked.toLowerCase();
+
+  } else {
+      // treat as phone number
+      const digits = [];
+      const formatted = [];
+      for (let c of S) {
+          if (/[0-9]/.test(c)) digits.push(c);
+      }
+      if (digits.length > 10) formatted.push('+');
+      while (digits.length) {
+          let rem = digits.length
+          if (rem <= 4) formatted.push(digits.shift())
+          else {
+              formatted.push('*')
+              digits.shift()
+          }
+          // formatted.push(digits.shift());
+          if ([11, 8, 5].includes(rem)) formatted.push('-')
+      }
+      return formatted.join('')
+  }
+};
