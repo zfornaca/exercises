@@ -175,3 +175,27 @@ function pythagSq(m, n) {
   let sideB = (m[1]-n[1])**2
   return sideA+sideB
 }
+
+// November 29
+// conference room booking
+// (no link)
+
+function confRoomTest(events) {
+  let booked = new Set();
+
+  for (let evt of events) {
+    let nums = [];
+    for (let i = evt.start; i <= evt.end; i++) {
+      nums.push(i);
+    }
+
+    for (let num of nums) {
+      if (booked.has(num)) {
+        return false;
+      }
+      booked.add(num);
+    }
+
+  }
+  return true;
+}
