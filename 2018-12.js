@@ -53,3 +53,45 @@ var majorityElement = function(nums) {
 
   return candidate;
 };
+
+// December 4
+// Counting bits
+// https://leetcode.com/problems/counting-bits/
+
+var countBits = function(num) {
+  let output = [0];
+
+  let power2 = 0.5;
+
+  if (num == 0) return output;
+
+  for (let i = 1; i <= num; i++) {
+    if (i == power2 * 2) {
+      power2 = power2 * 2;
+      output[i] = 1;
+    } else {
+      output[i] = output[power2] + output[i - power2];
+    }
+  }
+
+  return output;
+};
+
+// December 5
+// Minimum add to make parentheses valid
+// https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+
+var minAddToMakeValid = function(S) {
+  let missing = 0;
+  let unpaired = [];
+
+  for (let c of S) {
+    if (c === '(') unpaired.push(c);
+    else {
+      if (unpaired.length) {
+        unpaired.pop();
+      } else missing++;
+    }
+  }
+  return (missing += unpaired.length);
+};
