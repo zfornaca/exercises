@@ -95,3 +95,20 @@ var minAddToMakeValid = function(S) {
   }
   return (missing += unpaired.length);
 };
+
+// December 5
+// Sort characters by frequency
+// https://leetcode.com/problems/sort-characters-by-frequency/
+
+var frequencySort = function(s) {
+  const map = {};
+  const arr = [];
+
+  [...s].forEach(c => (map[c] = map[c] + 1 || 1));
+
+  for (let [key, val] of Object.entries(map)) {
+    arr.push(key.repeat(val));
+  }
+
+  return arr.sort((a, b) => b.length - a.length).join('');
+};
