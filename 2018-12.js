@@ -112,3 +112,41 @@ var frequencySort = function(s) {
 
   return arr.sort((a, b) => b.length - a.length).join('');
 };
+
+// December 6
+// Sort array by parity II
+// https://leetcode.com/problems/sort-array-by-parity-ii/
+
+var sortArrayByParityII = function(A) {
+  const strayOdds = [];
+  const strayEvens = [];
+
+  for (let i = 0; i < A.length; i++) {
+    const evenIdx = i % 2 === 0;
+    const evenVal = A[i] % 2 === 0;
+
+    if (evenIdx && !evenVal) strayOdds.push(i);
+    if (!evenIdx && evenVal) strayEvens.push(i);
+  }
+
+  while (strayOdds.length) {
+    const m = strayOdds.pop();
+    const n = strayEvens.pop();
+    [A[m], A[n]] = [A[n], A[m]];
+  }
+
+  return A;
+};
+
+// December 6
+// Hamming distance
+// https://leetcode.com/problems/hamming-distance/
+
+var hammingDistance = function(x, y) {
+  let hamming = 0;
+  const xor = (x ^ y).toString(2);
+  for (let digit of xor) {
+    if (digit === '1') hamming++;
+  }
+  return hamming;
+};
