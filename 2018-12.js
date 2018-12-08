@@ -150,3 +150,137 @@ var hammingDistance = function(x, y) {
   }
   return hamming;
 };
+
+// December 7
+// Range sum of BST
+// https://leetcode.com/problems/range-sum-of-bst/
+
+var rangeSumBST = function(root, L, R) {
+  let sum = 0;
+  const stack = [root];
+
+  while (stack.length) {
+    const node = stack.pop();
+
+    if (node.val >= L && node.val <= R) sum += node.val;
+
+    if (node.val < L) {
+      if (node.right) stack.push(node.right);
+    } else if (node.val > R) {
+      if (node.left) stack.push(node.left);
+    } else {
+      if (node.right) stack.push(node.right);
+      if (node.left) stack.push(node.left);
+    }
+  }
+  return sum;
+};
+
+// December 7
+// Max increase to keep city skyline
+// https://leetcode.com/problems/max-increase-to-keep-city-skyline/
+
+var maxIncreaseKeepingSkyline = function(grid) {
+  let increase = 0;
+  // horiMax is max value per row. e.g. [8, 7, 9, 3]
+  let horiMax = new Array(grid.length).fill(0);
+  // vertMax is max value per column. e.g. [9, 4, 8, 7]
+  let vertMax = new Array(grid[0].length).fill(0);
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      horiMax[i] = Math.max(grid[i][j], horiMax[i]);
+      vertMax[j] = Math.max(grid[i][j], vertMax[j]);
+    }
+  }
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      increase += Math.min(horiMax[i], vertMax[j]) - grid[i][j];
+    }
+  }
+
+  return increase;
+};
+
+// December 7
+// Unique morse code worse
+// https://leetcode.com/problems/unique-morse-code-words/
+// alternate solutions included turning the morse array into a map, adding a second array with alpha letters to make a pseudo-map (both avoiding charCodeAt)
+// and also using reduce
+
+var uniqueMorseRepresentations = function(words) {
+  const morse = [
+    '.-',
+    '-...',
+    '-.-.',
+    '-..',
+    '.',
+    '..-.',
+    '--.',
+    '....',
+    '..',
+    '.---',
+    '-.-',
+    '.-..',
+    '--',
+    '-.',
+    '---',
+    '.--.',
+    '--.-',
+    '.-.',
+    '...',
+    '-',
+    '..-',
+    '...-',
+    '.--',
+    '-..-',
+    '-.--',
+    '--..'
+  ];
+
+  const transformations = new Set();
+
+  for (let word of words) {
+    const morsified = [];
+    for (let ltr of word) {
+      morsified.push(morse[ltr.charCodeAt(0) - 97]);
+    }
+    transformations.add(morsified.join(''));
+  }
+  return transformations.size;
+};
+
+// December 7
+// Maximum binary tree
+// https://leetcode.com/problems/maximum-binary-tree/
+
+var constructMaximumBinaryTree = function(nums) {
+  if (!nums.length) return null;
+  const bigIdx = nums.reduce((maxIdx, val, idx) => {
+    return nums[maxIdx] > val ? maxIdx : idx;
+  }, 0);
+
+  const node = new TreeNode(nums[bigIdx]);
+  node.left = constructMaximumBinaryTree(nums.slice(0, bigIdx));
+  node.right = constructMaximumBinaryTree(nums.slice(bigIdx + 1));
+
+  return node;
+};
+
+// December 8
+// Reveal cards in increasing order
+// https://leetcode.com/problems/reveal-cards-in-increasing-order/
+
+var deckRevealedIncreasing = function(deck) {
+  let indices = Array.from({ length: deck.length }, (v, i) => i);
+  let output = new Array(deck.length);
+  deck.sort((a, b) => a - b);
+
+  for (let card of deck) {
+    output[indices.shift()] = card;
+    if (indices.length) indices.push(indices.shift());
+  }
+
+  return output;
+};
