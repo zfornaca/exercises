@@ -559,3 +559,53 @@ var matrixScore = function(A) {
 
   return sum;
 };
+
+// December 10
+// Array pertition I
+// https://leetcode.com/problems/array-partition-i/
+
+var arrayPairSum = function(nums) {
+  return nums
+    .sort((a, b) => a - b)
+    .reduce((sum, num, i) => (i % 2 === 0 ? (sum += num) : sum));
+};
+
+// December 10
+// Number of recent calls
+// https://leetcode.com/problems/number-of-recent-calls/
+
+var RecentCounter = function() {
+  this.timestamps = [];
+};
+
+/**
+ * @param {number} t
+ * @return {number}
+ */
+RecentCounter.prototype.ping = function(t) {
+  this.timestamps.push(t);
+  let calls = 0;
+  for (let i = this.timestamps.length - 1; i >= 0; i--) {
+    if (this.timestamps[i] + 3000 < t) break;
+    calls++;
+  }
+  return calls;
+};
+
+// 2nd ver, almost half the runtime
+
+var RecentCounter = function() {
+  this.timestamps = [];
+};
+
+/**
+ * @param {number} t
+ * @return {number}
+ */
+RecentCounter.prototype.ping = function(t) {
+  this.timestamps.push(t);
+  while (this.timestamps[0] + 3000 < t) {
+    this.timestamps.shift();
+  }
+  return this.timestamps.length;
+};
