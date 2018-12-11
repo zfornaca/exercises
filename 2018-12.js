@@ -524,3 +524,38 @@ WHEN sex='m' THEN 'f'
 WHEN sex='f' THEN 'm'
 END;
 */
+
+// December 10
+// Score after flipping matrix
+// https://leetcode.com/problems/score-after-flipping-matrix/
+
+var matrixScore = function(A) {
+  let sum = 0;
+  let columnSums = [];
+
+  // flip any row starting w/ 0
+  for (let i = 0; i < A.length; i++) {
+    if (A[i][0] === 0) {
+      for (let j = 0; j < A[i].length; j++) {
+        A[i][j] = 1 - A[i][j];
+      }
+    }
+  }
+
+  // record # of 1s in column, or its complement
+  for (let k = 0; k < A[0].length; k++) {
+    let oneCt = 0;
+    for (let l = 0; l < A.length; l++) {
+      oneCt += A[l][k];
+    }
+    columnSums.push(Math.max(oneCt, A.length - oneCt));
+  }
+
+  // calculate value
+  let exp = 0;
+  while (columnSums.length) {
+    sum += columnSums.pop() * 2 ** exp++;
+  }
+
+  return sum;
+};
