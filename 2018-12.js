@@ -609,3 +609,148 @@ RecentCounter.prototype.ping = function(t) {
   }
   return this.timestamps.length;
 };
+
+// December 11
+// Flip equivalent binary trees
+// https://leetcode.com/problems/flip-equivalent-binary-trees/
+
+var flipEquiv = function(root1, root2) {
+  if (!root1 && !root2) return true;
+  if ((!root1 && root2) || (root1 && !root2)) return false;
+
+  if (root1.val !== root2.val) return false;
+
+  const llMatch =
+    flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right);
+
+  const lrMatch =
+    flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
+
+  return llMatch || lrMatch;
+};
+
+// December 11
+// Battleships in a board
+// https://leetcode.com/problems/battleships-in-a-board/
+
+var countBattleships = function(board) {
+  let shipCt = 0;
+
+  board.forEach((row, i) => {
+    row.forEach((slot, j) => {
+      let noXAbove = i === 0 || board[i - 1][j] === '.';
+      let noXLeft = j === 0 || board[i][j - 1] === '.';
+      if (noXAbove && noXLeft && slot === 'X') shipCt++;
+    });
+  });
+
+  return shipCt;
+};
+
+// Below: solved the wrong problem (is battleship board valid)
+// var validBoard = function(board) {
+//     return board.every((row,i) => {
+//         return row.every((slot,j) => {
+//             if (slot === '.') return true;
+//             console.log(i, j)
+
+//             if(((i-1>=0 && board[i-1][j] === 'x') || (i+1<board.length && board[i+1][j] === 'x')) &&
+//                (board[i][j-1] === 'x' || board[i][j+1] === 'x')) return false;
+
+//             return true;
+//         })
+//     })
+
+// };
+
+// December 11
+// Complex number multiplication
+// https://leetcode.com/problems/complex-number-multiplication/
+
+var complexNumberMultiply = function(a, b) {
+  a = a.split('+');
+  b = b.split('+');
+  const aR = +a[0];
+  const aI = a[1][0] === '-' ? a[1].slice(1, -1) * -1 : a[1].slice(0, -1);
+  const bR = +b[0];
+  const bI = b[1][0] === '-' ? b[1].slice(1, -1) * -1 : b[1].slice(0, -1);
+  const realProd = aR * bR - aI * bI;
+  const imagProd = aR * bI + aI * bR;
+  return `${realProd}+${imagProd}i`;
+};
+
+// December 11
+// Projection area of 3D shapes
+// https://leetcode.com/problems/projection-area-of-3d-shapes/
+
+var projectionArea = function(grid) {
+  let xySum = 0;
+  let colMaxes = new Array(grid.length).fill(0);
+  let rowMaxes = new Array(grid[0].length).fill(0);
+  grid.forEach((row, y) => {
+    row.forEach((cube, x) => {
+      xySum += cube === 0 ? 0 : 1;
+      rowMaxes[x] = Math.max(rowMaxes[x], cube);
+      colMaxes[y] = Math.max(colMaxes[y], cube);
+    });
+  });
+  const xzSum = colMaxes.reduce((acc, el) => acc + el);
+  const yzSum = rowMaxes.reduce((acc, el) => acc + el);
+
+  return xySum + xzSum + yzSum;
+};
+
+// December 11
+// Subdomain visit count
+// https://leetcode.com/problems/subdomain-visit-count/
+
+var subdomainVisits = function(cpdomains) {
+  let domCts = {};
+  cpdomains.forEach(cpd => {
+    const [ct, dom] = cpd.split(' ');
+    const domFrags = dom.split('.');
+    for (let i = 0; i < domFrags.length; i++) {
+      const subDom = domFrags.slice(i).join('.');
+      domCts[subDom] ? (domCts[subDom] += +ct) : (domCts[subDom] = +ct);
+    }
+  });
+
+  let pairs = Object.entries(domCts);
+  for (let j = 0; j < pairs.length; j++) {
+    pairs[j] = `${pairs[j][1]} ${pairs[j][0]}`;
+  }
+
+  return pairs;
+};
+
+// December 11
+// Reverse string
+// https://leetcode.com/problems/reverse-string/
+
+var reverseString = function(s) {
+  const arr = s.split('');
+  for (let i = 0; i < arr.length / 2; i++) {
+    [arr[i], arr[arr.length - 1 - i]] = [arr[arr.length - 1 - i], arr[i]];
+  }
+  return arr.join('');
+};
+
+// December 11
+// Number of lines to write string
+// https://leetcode.com/problems/number-of-lines-to-write-string/
+
+var numberOfLines = function(widths, S) {
+  let remaining = 100;
+  let lines = 1;
+
+  for (let i = 0; i < S.length; i++) {
+    const idx = S.charCodeAt(i) - 97;
+    if (remaining >= widths[idx]) {
+      remaining -= widths[idx];
+    } else {
+      lines++;
+      remaining = 100 - widths[idx];
+    }
+  }
+  return [lines, 100 - remaining];
+};
