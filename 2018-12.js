@@ -754,3 +754,103 @@ var numberOfLines = function(widths, S) {
   }
   return [lines, 100 - remaining];
 };
+
+// December 12
+// Shortest distance to a character
+// https://leetcode.com/problems/shortest-distance-to-a-character/
+// Alternate solution I saw and liked made two passes through the array capturing "distance from left C" and then comparing that to the "distance from right C" on the return trip
+
+var shortestToChar = function(S, C) {
+  let cA = S.indexOf(C);
+  let cB = Math.max(S.indexOf(C, cA + 1), cA);
+  let distances = [];
+
+  for (let i = 0; i < S.length; i++) {
+    if (i >= cB) {
+      let cNext = Math.max(S.indexOf(C, cB + 1), cB);
+      [cA, cB] = [cB, cNext];
+    }
+    distances.push(Math.min(Math.abs(cA - i), Math.abs(cB - i)));
+  }
+  return distances;
+};
+
+// December 12
+// Number complement
+// https://leetcode.com/problems/number-complement/
+
+var findComplement = function(num) {
+  let allBinOnes = 1;
+  while (allBinOnes <= num) {
+    allBinOnes = allBinOnes * 2;
+  }
+  return allBinOnes - num - 1;
+};
+
+// December 12
+// Keyboard row
+// https://leetcode.com/problems/keyboard-row/
+
+var findWords = function(words) {
+  let keyRows = {
+    q: 1,
+    w: 1,
+    e: 1,
+    r: 1,
+    t: 1,
+    y: 1,
+    u: 1,
+    i: 1,
+    o: 1,
+    p: 1,
+    a: 2,
+    s: 2,
+    d: 2,
+    f: 2,
+    g: 2,
+    h: 2,
+    j: 2,
+    k: 2,
+    l: 2,
+    z: 3,
+    x: 3,
+    c: 3,
+    v: 3,
+    b: 3,
+    n: 3,
+    m: 3
+  };
+
+  return words.filter(word => {
+    word = word.toLowerCase();
+    let row = keyRows[word[0]];
+    for (let i = 1; i < word.length; i++) {
+      if (keyRows[word[i]] !== row) return false;
+    }
+    return true;
+  });
+};
+
+// December 12
+// Groups of special-equivalent strings
+// https://leetcode.com/problems/groups-of-special-equivalent-strings/
+// Good sort-less alternative I saw relied on building a 52-element array that counted odd instances and even instances
+// and then converting those arrays to strings and comparing those, using a set the same way I did.
+
+var numSpecialEquivGroups = function(A) {
+  let groups = new Set();
+  A.forEach(str => {
+    const evens = [];
+    const odds = [];
+    for (let i = 0; i < str.length; i++) {
+      if (i % 2 === 0) evens.push(str[i]);
+      else odds.push(str[i]);
+    }
+    evens.sort();
+    odds.sort();
+    const sortString = [...evens, ...odds].join('');
+    groups.add(sortString);
+  });
+
+  return groups.size;
+};
