@@ -950,3 +950,63 @@ var islandPerimeter = function(grid) {
   });
   return perimeter;
 };
+
+// December 13
+// Stone game
+// https://leetcode.com/problems/stone-game/
+
+// There's a DP solution I don't fully grok.
+
+var stoneGame = function(piles) {
+  return true;
+};
+
+// December 14
+// Find all duplicates in an array
+// https://leetcode.com/problems/find-all-duplicates-in-an-array/
+
+var findDuplicates = function(nums) {
+  nums.push(0);
+  const dupes = [];
+  let i = 0;
+  while (i < nums.length) {
+    if (nums[i] === i) {
+      i++;
+    } else {
+      if (nums[nums[i]] === nums[i]) {
+        dupes.push(nums[i]);
+        i++;
+      } else {
+        const dupeSwap = i > nums[i];
+        let temp = nums[i];
+        nums[i] = nums[temp];
+        nums[temp] = temp;
+        if (dupeSwap) i++;
+      }
+    }
+  }
+  return dupes;
+};
+
+// December 14
+// Verifying an alien dictionary
+// https://leetcode.com/problems/verifying-an-alien-dictionary/
+
+var isAlienSorted = function(words, order) {
+  for (let i = 0; i < words.length - 1; i++) {
+    if (!pairOrdered(words[i], words[i + 1], order)) return false;
+  }
+  return true;
+};
+
+function pairOrdered(wordA, wordB, order) {
+  const lenA = wordA.length;
+  const lenB = wordB.length;
+
+  for (let i = 0; i < Math.min(lenA, lenB); i++) {
+    if (order.indexOf([wordA[i]]) > order.indexOf([wordB[i]])) return false;
+    if (order.indexOf([wordA[i]]) < order.indexOf([wordB[i]])) return true;
+  }
+  if (lenA > lenB) return false;
+  return true;
+}
