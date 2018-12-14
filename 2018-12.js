@@ -854,3 +854,99 @@ var numSpecialEquivGroups = function(A) {
 
   return groups.size;
 };
+
+// December 12
+// Not boring movies
+// https://leetcode.com/problems/not-boring-movies/
+
+/*
+SELECT * FROM cinema
+WHERE id%2=1
+AND description != 'boring'
+ORDER BY rating DESC;
+*/
+
+// December 13
+// Custom sort string
+// https://leetcode.com/problems/custom-sort-string/
+
+var customSortString = function(S, T) {
+  const hash = {};
+
+  for (let i = 0; i < S.length; i++) {
+    hash[S[i]] = i;
+  }
+
+  function sSort(a, b) {
+    let aVal = hash[a] || 0;
+    let bVal = hash[b] || 0;
+    return aVal - bVal;
+  }
+
+  return [...T].sort((a, b) => sSort(a, b)).join('');
+};
+
+var customSortString = function(S, T) {
+  return [...T].sort((a, b) => S.indexOf(a) - S.indexOf(b)).join('');
+};
+
+// December 13
+// Baseball game
+// https://leetcode.com/problems/baseball-game/
+
+var calPoints = function(ops) {
+  const stack = [];
+  ops.forEach(e => {
+    if (e === '+') {
+      stack.push(stack[stack.length - 1] + stack[stack.length - 2]);
+    } else if (e === 'D') {
+      stack.push(stack[stack.length - 1] * 2);
+    } else if (e === 'C') {
+      stack.pop();
+    } else stack.push(+e);
+  });
+
+  return stack.reduce((sum, num) => num + sum);
+};
+
+// December 13
+// Island perimeter
+// https://leetcode.com/problems/island-perimeter/
+
+var islandPerimeter = function(grid) {
+  let perimeter = 0;
+
+  grid.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (cell === 0) {
+        perimeter += grid[y][x - 1] === 1 ? 1 : 0;
+        perimeter += grid[y - 1] && grid[y - 1][x] === 1 ? 1 : 0;
+      } else {
+        // cell === 1
+        if (y === 0) perimeter++;
+        if (y === grid.length - 1) perimeter++;
+        if (x === 0) perimeter++;
+        if (x == row.length - 1) perimeter++;
+        if (grid[y][x - 1] === 0) perimeter++;
+        if (grid[y - 1] && grid[y - 1][x] === 0) perimeter++;
+      }
+    });
+  });
+  return perimeter;
+};
+
+var islandPerimeter = function(grid) {
+  let perimeter = 0;
+
+  grid.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (cell === 1) {
+        if (grid[y][x + 1] !== 1) perimeter++;
+        if (grid[y][x - 1] !== 1) perimeter++;
+        if (!grid[y - 1] || grid[y - 1][x] !== 1) perimeter++;
+        if (!grid[y + 1] || grid[y + 1][x] !== 1) perimeter++;
+      }
+    });
+  });
+  return perimeter;
+};
