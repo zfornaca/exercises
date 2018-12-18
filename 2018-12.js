@@ -1211,3 +1211,108 @@ var maxDepth = function(root) {
   // one liner version:
   // return root ? 1+Math.max(maxDepth(root.left), maxDepth(root.right)) : 0;
 };
+
+// December 18
+// Next greater element
+// https://leetcode.com/problems/next-greater-element-i/
+
+var nextGreaterElement = function(findNums, nums) {
+  const hashMap = nums.reduce((obj, key, idx) => {
+    obj[key] = idx;
+    return obj;
+  }, {});
+
+  console.log(hashMap);
+
+  return findNums.reduce((arr, num) => {
+    let idx = hashMap[num] + 1;
+    let nextGreater = -1;
+    while (idx < nums.length) {
+      if (nums[idx] > num) {
+        nextGreater = nums[idx];
+        break;
+      }
+      idx++;
+    }
+    arr.push(nextGreater);
+    return arr;
+  }, []);
+};
+
+// December 18
+// Reverse words in a string III
+// https://leetcode.com/problems/reverse-words-in-a-string-iii/
+
+var reverseWords = function(s) {
+  const words = s.split(' ');
+
+  return words
+    .map(w => {
+      const word = w.split('');
+      for (let i = 0; i < word.length / 2; i++) {
+        [word[i], word[word.length - 1 - i]] = [
+          word[word.length - 1 - i],
+          word[i]
+        ];
+      }
+      return word.join('');
+    })
+    .join(' ');
+};
+
+var reverseWords = function(s) {
+  return s
+    .split(' ')
+    .map(w =>
+      w
+        .split('')
+        .reverse()
+        .join('')
+    )
+    .join(' ');
+};
+
+// December 18
+// Toeplitz matrix
+// https://leetcode.com/problems/toeplitz-matrix/
+
+var isToeplitzMatrix = function(matrix) {
+  const diags = {};
+
+  return matrix.every((row, i) => {
+    return row.every((cell, j) => {
+      if (!diags.hasOwnProperty(i - j)) diags[i - j] = cell;
+      else if (diags[i - j] !== cell) return false;
+      return true;
+    });
+  });
+};
+
+// December 18
+// Queue reconstruction by height
+// https://leetcode.com/problems/queue-reconstruction-by-height/
+
+var reconstructQueue = function(people) {
+  const newQ = [];
+  // sort tallest to shortest, with ties going to fewest tall people ahead
+  people.sort((a, b) => b[0] - a[0] || a[1] - b[1]);
+
+  // positions of short people dependent on positions of tall, so insert in sorted order
+  people.forEach(p => newQ.splice(p[1], 0, p));
+
+  return newQ;
+};
+
+// December 18
+// Trim a binary search tree
+// https://leetcode.com/problems/trim-a-binary-search-tree/
+
+var trimBST = function(root, L, R) {
+  if (!root) return root;
+  if (root.val < L) return trimBST(root.right, L, R);
+  if (root.val > R) return trimBST(root.left, L, R);
+
+  root.left = trimBST(root.left, L, R);
+  root.right = trimBST(root.right, L, R);
+  return root;
+};
