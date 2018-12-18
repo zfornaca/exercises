@@ -1010,3 +1010,204 @@ function pairOrdered(wordA, wordB, order) {
   if (lenA > lenB) return false;
   return true;
 }
+
+// December 14
+// Binary gap
+// https://leetcode.com/problems/binary-gap/
+
+var binaryGap = function(N) {
+  const binN = N.toString(2);
+  let maxGap = 0;
+  let prev1 = binN.indexOf('1');
+
+  for (let i = prev1 + 1; i < binN.length; i++) {
+    if (binN[i] === '1') {
+      maxGap = Math.max(maxGap, i - prev1);
+      prev1 = i;
+    }
+  }
+  return maxGap;
+};
+
+// December 14
+// Distribute candies
+// https://leetcode.com/problems/distribute-candies/
+
+var distributeCandies = function(candies) {
+  candySet = new Set(candies);
+  return Math.min(candySet.size, candies.length / 2);
+};
+
+// December 14
+// Fizz buzz
+// https://leetcode.com/problems/fizz-buzz/
+
+var fizzBuzz = function(n) {
+  const arr = [];
+  for (let i = 1; i <= n; i++) {
+    const fizz = i % 3 === 0;
+    const buzz = i % 5 === 0;
+    if (fizz && buzz) arr.push('FizzBuzz');
+    else if (fizz) arr.push('Fizz');
+    else if (buzz) arr.push('Buzz');
+    else arr.push(i.toString());
+  }
+  return arr;
+};
+
+// December 14
+// Keys and rooms
+// https://leetcode.com/problems/keys-and-rooms/
+
+var canVisitAllRooms = function(rooms) {
+  const visited = new Set();
+  visited.add(0);
+  const stack = [...rooms[0]];
+  while (stack.length) {
+    const key = stack.pop();
+    if (!visited.has(key)) {
+      visited.add(key);
+      stack.push(...rooms[key]);
+    }
+  }
+  return visited.size === rooms.length;
+};
+
+// December 17
+// Reshape the matrix
+// https://leetcode.com/problems/reshape-the-matrix/
+
+var matrixReshape = function(nums, r, c) {
+  if (r * c !== nums.length * nums[0].length) return nums;
+
+  const newMatrix = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      row.push(extractNext(nums));
+    }
+    newMatrix.push(row);
+  }
+  return newMatrix;
+};
+
+function extractNext(matrix) {
+  if (matrix[0].length > 1) return matrix[0].shift();
+  const num = matrix[0].shift();
+  matrix.shift();
+  return num;
+}
+
+// December 17
+// Single number
+// https://leetcode.com/problems/single-number/
+
+var singleNumber = function(nums) {
+  const uniques = new Set();
+  nums.forEach(num => {
+    if (uniques.has(num)) {
+      uniques.delete(num);
+    } else {
+      uniques.add(num);
+    }
+  });
+  return uniques.values().next().value;
+};
+
+var singleNumber = function(nums) {
+  return nums.reduce((res, next) => res ^ next);
+};
+
+// December 17
+// Search in a binary search tree
+// https://leetcode.com/problems/search-in-a-binary-search-tree/
+
+var searchBST = function(root, val) {
+  if (root === null) return null;
+  else if (val === root.val) return root;
+  else if (val < root.val) return searchBST(root.left, val);
+  else return searchBST(root.right, val);
+};
+
+// December 17
+// Leaf-similar trees
+// https://leetcode.com/problems/leaf-similar-trees/
+
+var leafSimilar = function(root1, root2) {
+  const leaves1 = [];
+  const leaves2 = [];
+
+  function leafLister(root, leaves) {
+    if (!root.left && !root.right) leaves.push(root.val);
+    else {
+      if (root.left) leafLister(root.left, leaves);
+      if (root.right) leafLister(root.right, leaves);
+    }
+  }
+
+  leafLister(root1, leaves1);
+  leafLister(root2, leaves2);
+
+  return leaves1.join('') === leaves2.join('');
+};
+
+// December 17
+// Increasing order search tree
+// https://leetcode.com/problems/search-in-a-binary-search-tree/
+
+// Theoretically works, but out of memory
+
+var increasingBST = function(root) {
+  const inOrderNodes = [];
+
+  function inner(root) {
+    if (root.left) inner(root.left);
+    inOrderNodes.push(root);
+    if (root.right) inner(root.right);
+  }
+
+  inner(root);
+
+  for (let i = 0; i < inOrderNodes.length - 1; i++) {
+    inOrderNodes[i].left = null;
+    inOrderNodes[i].right = inOrderNodes[i + 1];
+  }
+
+  return inOrderNodes[0];
+};
+
+// Revised and now works. Difference is that it only stores values in array and build new nodes.
+
+var increasingBST = function(root) {
+  const inOrderVals = [];
+
+  function inner(root) {
+    if (root.left) inner(root.left);
+    inOrderVals.push(root.val);
+    if (root.right) inner(root.right);
+  }
+
+  inner(root);
+
+  const dummyRoot = new TreeNode(-1);
+  let current = dummyRoot;
+  for (let val of inOrderVals) {
+    current.right = new TreeNode(val);
+    current = current.right;
+  }
+
+  return dummyRoot.right;
+};
+
+// December 17
+// Maximum depth of binary tree
+// https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+var maxDepth = function(root) {
+  if (!root) return 0;
+  else {
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+  }
+  // one liner version:
+  // return root ? 1+Math.max(maxDepth(root.left), maxDepth(root.right)) : 0;
+};
