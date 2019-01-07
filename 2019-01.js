@@ -245,3 +245,21 @@ var containsDuplicate = function(nums) {
   }
   return false;
 };
+
+// January 7
+//
+//
+
+var maxChunksToSorted = function(arr) {
+  let chunks = 1;
+  let chunkEnd = 0;
+
+  arr.forEach((num, i) => {
+    if (chunkEnd < i) {
+      chunks++;
+    }
+    chunkEnd = Math.max(chunkEnd, num);
+  });
+
+  return chunks;
+};
