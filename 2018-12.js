@@ -1316,3 +1316,20 @@ var trimBST = function(root, L, R) {
   root.right = trimBST(root.right, L, R);
   return root;
 };
+
+// December 18
+// Daily temperatures
+// https://leetcode.com/problems/daily-temperatures/
+
+var dailyTemperatures = function(T) {
+  const output = new Array(T.length);
+  const stack = [];
+  for (i = T.length - 1; i >= 0; i--) {
+    while (stack.length && T[i] >= T[stack[stack.length - 1]]) {
+      stack.pop();
+    }
+    output[i] = stack.length ? stack[stack.length - 1] - i : 0;
+    stack.push(i);
+  }
+  return output;
+};
