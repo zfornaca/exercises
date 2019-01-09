@@ -247,8 +247,8 @@ var containsDuplicate = function(nums) {
 };
 
 // January 7
-//
-//
+// Max chunks to make sorted
+// https://leetcode.com/problems/max-chunks-to-make-sorted/
 
 var maxChunksToSorted = function(arr) {
   let chunks = 1;
@@ -262,4 +262,80 @@ var maxChunksToSorted = function(arr) {
   });
 
   return chunks;
+};
+
+// January 8
+// Fibonacci number
+// https://leetcode.com/problems/fibonacci-number/
+
+var fib = function(N) {
+  let a = 0;
+  let b = 1;
+
+  while (N > 0) {
+    [a, b] = [b, a + b];
+    N--;
+    console.log(a, b, N);
+  }
+
+  return a;
+};
+
+// January 9
+// Goat latin
+// https://leetcode.com/problems/goat-latin/
+
+var toGoatLatin = function(S) {
+  return S.split(' ')
+    .map((word, idx) => {
+      return (
+        ('aeiouAEIOU'.includes(word[0]) ? word : word.substring(1) + word[0]) +
+        'maa' +
+        'a'.repeat(idx)
+      );
+    })
+    .join(' ');
+};
+
+// January 9
+// Binary number with alternating bits
+// https://leetcode.com/problems/binary-number-with-alternating-bits/
+
+var hasAlternatingBits = function(n) {
+  const num = n.toString(2);
+
+  for (let i = 1; i < num.length; i++) {
+    if (num[i] === num[i - 1]) return false;
+  }
+
+  return true;
+};
+
+// January 9
+// Prime number of set bits in binary representation
+// https://leetcode.com/problems/prime-number-of-set-bits-in-binary-representation/
+
+var countPrimeSetBits = function(L, R) {
+  const primes = new Set([2, 3, 5, 7, 11, 13, 17, 19]);
+  let result = 0;
+
+  for (let i = L; i <= R; i++) {
+    let setBits = 0;
+    let str = i.toString(2);
+
+    for (let j = 0; j < str.length; j++) {
+      if (str[j] === '1') setBits++;
+    }
+    if (primes.has(setBits)) result++;
+  }
+  return result;
+};
+
+// January 9
+// Nim game
+// https://leetcode.com/problems/nim-game/
+
+var canWinNim = function(n) {
+  if (n % 4 === 0) return false;
+  return true;
 };
