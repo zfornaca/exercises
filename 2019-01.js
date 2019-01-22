@@ -339,3 +339,25 @@ var canWinNim = function(n) {
   if (n % 4 === 0) return false;
   return true;
 };
+
+// January 22
+// Squares of a sorted array
+// https://leetcode.com/problems/squares-of-a-sorted-array/
+
+var sortedSquares = function(A) {
+  const squares = A.map(int => int ** 2);
+
+  return squares.sort((a, b) => a - b);
+};
+
+var sortedSquares = function(A) {
+  const output = Array(A.length);
+  l = 0;
+  r = A.length - 1;
+
+  for (let i = A.length - 1; i >= 0; i--) {
+    output[i] = Math.abs(A[l]) >= Math.abs(A[r]) ? A[l++] ** 2 : A[r--] ** 2;
+  }
+
+  return output;
+};
