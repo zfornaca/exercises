@@ -361,3 +361,28 @@ var sortedSquares = function(A) {
 
   return output;
 };
+
+// January 23
+// N repeated elements in size 2N array
+// https://leetcode.com/problems/n-repeated-element-in-size-2n-array/
+
+var repeatedNTimes = function(A) {
+  const seen = new Set();
+
+  for (let num of A) {
+    if (seen.has(num)) return num;
+    else seen.add(num);
+  }
+};
+
+// January 29
+// K closest points to origin
+// https://leetcode.com/problems/k-closest-points-to-origin/submissions/
+
+var kClosest = function(points, K) {
+  return points.sort((a, b) => distance(a) - distance(b)).slice(0, K);
+};
+
+function distance(pt) {
+  return (pt[0] ** 2 + pt[1] ** 2) ** 0.5;
+}
